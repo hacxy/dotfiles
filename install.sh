@@ -108,17 +108,18 @@ if should_install "nvim"; then
   if command -v brew &>/dev/null; then
     install_brew_pkg() {
       local pkg="$1"
-      local cmd="${2:-$1}"
-      if ! command -v "$cmd" &>/dev/null; then
-        echo "📦 安装 $pkg..."
-        brew install "$pkg"
+      if brew list "$pkg" &>/dev/null; then
+        echo "✓ $pkg 已安装，跳过"
+        return 0
       fi
+      echo "📦 安装 $pkg..."
+      brew install "$pkg"
     }
     
     install_brew_pkg "git"
     install_brew_pkg "node"
     install_brew_pkg "tree-sitter-cli"
-    install_brew_pkg "ripgrep" "rg"
+    install_brew_pkg "ripgrep"
     install_brew_pkg "fd"
     install_brew_pkg "lazygit"
     install_brew_pkg "luarocks"
