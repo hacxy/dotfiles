@@ -1,0 +1,6 @@
+# 敏感信息配置
+# 复制此文件为 ~/.zshrc.local 并填入真实值
+# cp .zshrc.local.example ~/.zshrc.local
+
+export GITHUB_TOKEN="ghp_your_token_here"
+export HF_TOKEN="hf_your_token_here"

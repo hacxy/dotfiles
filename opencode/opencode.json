@@ -1,0 +1,40 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "mimo": {
+      "models": {
+        "mimo-v2.5": {
+          "reasoning": true,
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "MiMo V2.5"
+        },
+        "mimo-v2.5-pro": {
+          "reasoning": true,
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "MiMo V2.5 Pro"
+        }
+      },
+      "name": "Xiaomi MiMo Token Plan (China)",
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "baseURL": "https://token-plan-cn.xiaomimimo.com/v1",
+        "setCacheKey": true
+      }
+    }
+  },
+  "lsp": true
+}
