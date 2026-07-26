@@ -41,7 +41,7 @@ for arg in "$@"; do
       echo "  --interactive, -i     交互式选择"
       echo "  --help, -h            显示帮助"
       echo ""
-      echo "可用工具: opencode, nvim, kitty, tmux, zsh"
+      echo "可用工具: opencode, nvim, kitty, ghostty, tmux, zsh"
       echo ""
       echo "示例:"
       echo "  ./install.sh                        # 安装全部"
@@ -154,6 +154,14 @@ if should_install "kitty"; then
   [ -L ~/.config/kitty ] && rm ~/.config/kitty
   [ -d ~/.config/kitty ] && mv ~/.config/kitty ~/.config/kitty.bak
   ln -sf "$DOTFILES_DIR/kitty" ~/.config/kitty
+fi
+
+# --- Ghostty ---
+if should_install "ghostty"; then
+  echo "📝 配置 Ghostty..."
+  mkdir -p ~/.config/ghostty
+  [ -L ~/.config/ghostty/config ] && rm ~/.config/ghostty/config
+  ln -sf "$DOTFILES_DIR/ghostty/config" ~/.config/ghostty/config
 fi
 
 # --- Tmux ---

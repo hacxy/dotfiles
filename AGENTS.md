@@ -1,6 +1,6 @@
 # Dotfiles 仓库指南
 
-个人开发环境配置仓库，包含 opencode、nvim、kitty、tmux、zsh 五个工具的配置。
+个人开发环境配置仓库，包含 opencode、nvim、kitty、ghostty、tmux、zsh 六个工具的配置。
 
 ## 仓库结构
 
@@ -8,6 +8,7 @@
 - `opencode/` — OpenCode 配置 + `AGENTS.md`（全局行为规则，非仓库指南）
 - `nvim/` — Neovim 配置（lazy.nvim 管理插件，`lazy-lock.json` 锁定版本）
 - `kitty/` — Kitty 终端配置（catppuccin-mocha + snazzy 主题）
+- `ghostty/` — Ghostty 终端配置（catppuccin-mocha 主题，tmux 快捷键映射）
 - `tmux/` — Tmux 配置（catppuccin 主题，vim 键位）
 - `zsh/` — Zsh 配置（oh-my-zsh，proxy 切换函数）
 
@@ -27,3 +28,4 @@
 - 修改 nvim 配置后，用户需要重启 nvim 或执行 `:Lazy sync` 生效
 - 修改 tmux 配置后，用户需要 `tmux source ~/.config/tmux/tmux.conf` 或重启 tmux
 - 修改 zsh 配置后，用户需要 `source ~/.zshrc` 或重启终端
+- 修改 ghostty 配置后，用户需要按 `Cmd+Shift+,` 重启 Ghostty 或重启终端
