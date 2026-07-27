@@ -69,17 +69,9 @@
     },
     "playwright": {
       "type": "local",
-      "command": ["npx", "@playwright/mcp@latest"],
-      "enabled": true
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "command": ["npx", "@playwright/mcp@latest", "--image-responses=omit"],
       "enabled": true
     }
   },
-  "lsp": true,
-  "tools": {
-    "playwright_browser_take_screenshot": false
-  }
+  "lsp": true
 }
