@@ -60,4 +60,4 @@ export PATH="$PATH:/Users/hacxy/.lmstudio/bin"
 # 例如:
 #   export GITHUB_TOKEN="ghp_xxxx"
 #   export HF_TOKEN="hf_xxxx"
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local || true
