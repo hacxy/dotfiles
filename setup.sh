@@ -41,10 +41,10 @@ read -p "请选择 [1/2/3]: " choice
 case $choice in
   1)
     echo "📦 创建符号链接..."
-    # 检查 /usr/local/bin/ 是否存在
+    # 检查 /usr/local/bin/ 是否存在，不存在则创建
     if [ ! -d "/usr/local/bin" ]; then
-      echo "✗ /usr/local/bin/ 目录不存在"
-      exit 1
+      echo "📦 /usr/local/bin/ 目录不存在，正在创建..."
+      sudo mkdir -p /usr/local/bin
     fi
     
     # 检查是否有写入权限
