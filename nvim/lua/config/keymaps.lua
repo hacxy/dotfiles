@@ -36,6 +36,4 @@ vim.keymap.set({ 'n', 'i' }, '<D-z>', '<Cmd>undo<CR>', { silent = true })
 -- buffer
 vim.keymap.set({ 'n' }, '<leader>bd', '<Cmd>bdelete<CR>', { silent = true })
 
--- Markdown 渲染
-vim.keymap.set('n', '<leader>mr', '<cmd>RenderMarkdown toggle<cr>', { desc = 'Markdown 渲染切换', silent = true })
-vim.keymap.set('n', '<leader>mp', '<cmd>RenderMarkdown preview<cr>', { desc = 'Markdown 预览窗口', silent = true })
+
