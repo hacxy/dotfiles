@@ -3,7 +3,7 @@
 # 用法:
 #   全部安装: ./install.sh
 #   指定工具: ./install.sh --only=opencode,nvim
-#   排除工具: ./install.sh --skip=kitty,zsh
+#   排除工具: ./install.sh --skip=ghostty,zsh
 #   交互选择: ./install.sh --interactive
 #   远程安装: bash -c "$(curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/install.sh)"
 
@@ -41,7 +41,7 @@ for arg in "$@"; do
       echo "  --interactive, -i     交互式选择"
       echo "  --help, -h            显示帮助"
       echo ""
-      echo "可用工具: opencode, nvim, kitty, ghostty, tmux, zsh"
+      echo "可用工具: opencode, nvim, ghostty, tmux, zsh"
       echo ""
       echo "示例:"
       echo "  ./install.sh                        # 安装全部"
@@ -133,27 +133,6 @@ if should_install "nvim"; then
   [ -L ~/.config/nvim ] && rm ~/.config/nvim
   [ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.bak
   ln -sf "$DOTFILES_DIR/nvim" ~/.config/nvim
-fi
-
-# --- Kitty ---
-if should_install "kitty"; then
-  echo "📝 配置 Kitty..."
-  
-  # 安装 JetBrainsMono Nerd Font Mono 字体
-  FONT_NAME="JetBrainsMono Nerd Font Mono"
-  if ! system_profiler SPFontsDataType 2>/dev/null | grep -q "$FONT_NAME"; then
-    echo "📦 安装 $FONT_NAME..."
-    if command -v brew &>/dev/null; then
-      brew install --cask font-jetbrains-mono-nerd-font
-    else
-      echo "⚠️  未安装 Homebrew，请手动安装 $FONT_NAME 字体"
-      echo "   下载地址: https://www.nerdfonts.com/font-downloads"
-    fi
-  fi
-  
-  [ -L ~/.config/kitty ] && rm ~/.config/kitty
-  [ -d ~/.config/kitty ] && mv ~/.config/kitty ~/.config/kitty.bak
-  ln -sf "$DOTFILES_DIR/kitty" ~/.config/kitty
 fi
 
 # --- Ghostty ---

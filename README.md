@@ -62,7 +62,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/inst
 |------|-------------|
 | opencode | AI coding agent config + behavior rules (AGENTS.md) |
 | nvim | Neovim config (lazy.nvim, LSP, 15+ plugins) |
-| kitty | Terminal emulator (catppuccin-mocha + snazzy themes) |
 | ghostty | Ghostty terminal config |
 | tmux | Terminal multiplexer (catppuccin theme, vim keybindings) |
 | zsh | Shell config (oh-my-zsh, proxy toggle) |
@@ -85,7 +84,7 @@ dfm help                 # 显示帮助
 ```bash
 ./install.sh                        # Install all
 ./install.sh --only=opencode,nvim   # Install specific tools only
-./install.sh --skip=kitty,zsh       # Skip specific tools
+./install.sh --skip=zsh             # Skip specific tools
 ./install.sh --interactive          # Interactive selection
 ./install.sh --help                 # Show help
 ```
@@ -101,7 +100,6 @@ dotfiles/
 │   ├── nvm.sh
 │   ├── opencode.sh
 │   ├── nvim.sh
-│   ├── kitty.sh
 │   ├── ghostty.sh
 │   ├── tmux.sh
 │   └── zsh.sh
@@ -117,10 +115,6 @@ dotfiles/
 │   ├── lua/config/          # Basic settings, keymaps, LSP
 │   ├── lua/plugins/         # Plugin configs
 │   └── after/               # Filetype & LSP overrides
-├── kitty/
-│   ├── kitty.conf
-│   ├── current-theme.conf
-│   └── themes/
 ├── ghostty/
 │   └── config
 ├── tmux/
