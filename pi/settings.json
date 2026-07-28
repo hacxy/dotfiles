@@ -7,7 +7,8 @@
     "npm:@hacxy/skills",
     "npm:pi-web-access",
     "npm:pi-subagents",
-    "npm:pi-lens"
+    "npm:pi-lens",
+    "npm:@gotgenes/pi-permission-system"
   ],
   "defaultThinkingLevel": "high"
 }

@@ -11,10 +11,13 @@ sessions/
 npm/
 git/
 
-run-history.jsonl
 
 # 子代理运行时产物
 .pi-subagents/
 
 # Python 缓存
 __pycache__/
+
+trust.json
+run-history.jsonl
+
