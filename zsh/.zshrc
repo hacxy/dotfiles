@@ -14,6 +14,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# External editor
+export VISUAL="nvim"
+export EDITOR="nvim"
+
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 

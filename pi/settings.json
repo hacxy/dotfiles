@@ -4,6 +4,10 @@
   "defaultProvider": "xiaomi-token-plan-cn",
   "defaultModel": "mimo-v2.5-pro",
   "packages": [
-    "git:github.com/hacxy/skills"
-  ]
+    "git:github.com/hacxy/skills",
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:pi-lens"
+  ],
+  "defaultThinkingLevel": "high"
 }
