@@ -4,7 +4,7 @@
 # ============================================
 
 # ---------- 字体 ----------
-font-family = JetBrainsMono Nerd Font Mono
+font-family = JetBrainsMono Nerd Font
 font-size = 18.0
 font-thicken = false
 
@@ -27,13 +27,8 @@ mouse-hide-while-typing = true
 # ---------- macOS 特定 ----------
 macos-option-as-alt = true
 
-# ---------- 主题 (Catppuccin Mocha) ----------
-background = 1E1E2E
-foreground = CDD6F4
-selection-background = F5E0DC
-selection-foreground = 1E1E2E
-cursor-color = F5E0DC
-cursor-text = 1E1E2E
+# ---------- 主题 (Dracula) ----------
+theme = Atom One Dark
 
 # ---------- 快捷键映射 ----------
 

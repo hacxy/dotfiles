@@ -65,3 +65,6 @@ export PATH="$PATH:/Users/hacxy/.lmstudio/bin"
 #   export GITHUB_TOKEN="ghp_xxxx"
 #   export HF_TOKEN="hf_xxxx"
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local || true
+
+# Ghostty CLI
+export PATH="/Applications/Ghostty.app/Contents/MacOS:$PATH"
