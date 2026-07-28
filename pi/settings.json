@@ -8,7 +8,8 @@
     "npm:pi-web-access",
     "npm:pi-subagents",
     "npm:pi-lens",
-    "npm:@gotgenes/pi-permission-system"
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-mcp-adapter"
   ],
   "defaultThinkingLevel": "high"
 }
