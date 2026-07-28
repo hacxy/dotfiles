@@ -1,0 +1,15 @@
+# 敏感信息
+auth.json
+
+# 缓存文件
+models-store.json
+
+# 会话历史
+sessions/
+
+# 包缓存
+npm/
+git/
+
+# 信任配置
+trust.json

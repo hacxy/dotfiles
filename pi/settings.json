@@ -1,0 +1,9 @@
+{
+  "lastChangelogVersion": "0.82.1",
+  "theme": "dark",
+  "defaultProvider": "xiaomi-token-plan-cn",
+  "defaultModel": "mimo-v2.5-pro",
+  "packages": [
+    "git:github.com/hacxy/skills"
+  ]
+}
