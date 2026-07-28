@@ -11,5 +11,10 @@ sessions/
 npm/
 git/
 
-# 信任配置
-trust.json
+run-history.jsonl
+
+# 子代理运行时产物
+.pi-subagents/
+
+# Python 缓存
+__pycache__/
