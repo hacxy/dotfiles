@@ -13,7 +13,6 @@
     "npm:pi-cc-header"
   ],
   "defaultThinkingLevel": "high",
-  "quietStartup": true,
   "clearOnStart": true,
   "ccHeader": {
     "color": "a",
@@ -21,5 +20,6 @@
     "lines": false,
     "grad": true
   },
-  "rsl": true
+  "rsl": true,
+  "quietStartup": true
 }

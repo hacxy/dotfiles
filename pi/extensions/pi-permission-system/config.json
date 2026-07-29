@@ -24,7 +24,8 @@
     "external_directory": {
       "*": "ask",
       "~/.pi/agent/*": "allow",
-      "~/.agents/*": "allow"
+      "~/.agents/*": "allow",
+      "**/node_modules/@earendil-works/*": "allow"
     }
   }
 }
