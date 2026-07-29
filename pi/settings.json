@@ -9,7 +9,17 @@
     "npm:pi-subagents",
     "npm:pi-lens",
     "npm:@gotgenes/pi-permission-system",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-cc-header"
   ],
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "high",
+  "quietStartup": true,
+  "clearOnStart": true,
+  "ccHeader": {
+    "color": "a",
+    "ver": 1,
+    "lines": false,
+    "grad": true
+  },
+  "rsl": true
 }
