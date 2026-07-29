@@ -1,193 +1,168 @@
 #!/bin/bash
-# dotfiles 安装脚本
+# ============================================================
+# Dotfiles 初始化脚本
 # 用法:
-#   全部安装: ./install.sh
-#   指定工具: ./install.sh --only=opencode,nvim
-#   排除工具: ./install.sh --skip=ghostty,zsh
-#   交互选择: ./install.sh --interactive
-#   远程安装: bash -c "$(curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/install.sh)"
+#   远程执行: curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/install.sh | bash
+#   本地执行: ./install.sh
+# ============================================================
 
 set -e
 
-DOTFILES_DIR="$HOME/dotfiles"
-REPO_URL="https://github.com/hacxy/dotfiles.git"
+# 颜色定义
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
-# 默认安装所有
-INSTALL_ALL=true
-INSTALL_ONLY=""
-SKIP=""
-INTERACTIVE=false
-
-# 解析参数
-for arg in "$@"; do
-  case $arg in
-    --only=*)
-      INSTALL_ALL=false
-      INSTALL_ONLY="${arg#*=}"
-      ;;
-    --skip=*)
-      SKIP="${arg#*=}"
-      ;;
-    --interactive|-i)
-      INTERACTIVE=true
-      INSTALL_ALL=false
-      ;;
-    --help|-h)
-      echo "用法: ./install.sh [选项]"
-      echo ""
-      echo "选项:"
-      echo "  --only=tool1,tool2    只安装指定工具"
-      echo "  --skip=tool1,tool2    跳过指定工具"
-      echo "  --interactive, -i     交互式选择"
-      echo "  --help, -h            显示帮助"
-      echo ""
-      echo "可用工具: opencode, nvim, ghostty, tmux, zsh"
-      echo ""
-      echo "示例:"
-      echo "  ./install.sh                        # 安装全部"
-      echo "  ./install.sh --only=opencode,nvim   # 只安装 opencode 和 nvim"
-      echo "  ./install.sh --skip=zsh             # 跳过 zsh"
-      echo "  ./install.sh --interactive          # 交互选择"
-      exit 0
-      ;;
-  esac
-done
-
-# 如果 dotfiles 目录不存在，自动 clone
-if [ ! -d "$DOTFILES_DIR" ]; then
-  echo "📦 克隆 dotfiles 仓库..."
-  git clone "$REPO_URL" "$DOTFILES_DIR"
-fi
-
-cd "$DOTFILES_DIR"
-
-# 检查工具是否应该安装
-should_install() {
-  local tool=$1
-  
-  # 交互模式
-  if [ "$INTERACTIVE" = true ]; then
-    read -p "安装 $tool? [Y/n] " -n 1 -r
-    echo
-    [[ $REPLY =~ ^[Nn]$ ]] && return 1
-    return 0
-  fi
-  
-  # --only 模式
-  if [ -n "$INSTALL_ONLY" ]; then
-    echo ",$INSTALL_ONLY," | grep -q ",$tool," && return 0
-    return 1
-  fi
-  
-  # --skip 模式
-  if [ -n "$SKIP" ]; then
-    echo ",$SKIP," | grep -q ",$tool," && return 1
-    return 0
-  fi
-  
-  # 默认安装
-  return 0
+# 日志函数
+info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+ok() { echo -e "${GREEN}[OK]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() {
+	echo -e "${RED}[ERROR]${NC} $1"
+	exit 1
 }
 
-echo "🔧 开始安装 dotfiles..."
+# ============================================================
+# 环境检测
+# ============================================================
 
-# --- OpenCode ---
-if should_install "opencode"; then
-  echo "📝 配置 OpenCode..."
-  mkdir -p ~/.config
-  [ -L ~/.config/opencode ] && rm ~/.config/opencode
-  [ -d ~/.config/opencode ] && mv ~/.config/opencode ~/.config/opencode.bak
-  ln -sf "$DOTFILES_DIR/opencode" ~/.config/opencode
+# 仅支持 macOS
+if [[ "$(uname)" != "Darwin" ]]; then
+	error "此脚本仅支持 macOS 系统"
 fi
 
-# --- Neovim ---
-if should_install "nvim"; then
-  echo "📝 配置 Neovim..."
-  
-  # 安装 nvim 依赖
-  if command -v brew &>/dev/null; then
-    install_brew_pkg() {
-      local pkg="$1"
-      if brew list "$pkg" &>/dev/null; then
-        echo "✓ $pkg 已安装，跳过"
-        return 0
-      fi
-      echo "📦 安装 $pkg..."
-      brew install "$pkg"
-    }
-    
-    install_brew_pkg "git"
-    install_brew_pkg "node"
-    install_brew_pkg "tree-sitter-cli"
-    install_brew_pkg "ripgrep"
-    install_brew_pkg "fd"
-    install_brew_pkg "lazygit"
-    install_brew_pkg "luarocks"
-    install_brew_pkg "imagemagick"
-  else
-    echo "⚠️  未安装 Homebrew，请手动安装以下依赖:"
-    echo "   git, node, tree-sitter, ripgrep, fd, lazygit, luarocks, imagemagick"
-    echo "   安装 Homebrew: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-  fi
-  
-  [ -L ~/.config/nvim ] && rm ~/.config/nvim
-  [ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.bak
-  ln -sf "$DOTFILES_DIR/nvim" ~/.config/nvim
-fi
+DOTFILES_REPO="https://github.com/hacxy/dotfiles.git"
+DOTFILES_DIR="$HOME/dotfiles"
 
-# --- Ghostty ---
-if should_install "ghostty"; then
-  echo "📝 配置 Ghostty..."
-  mkdir -p ~/.config/ghostty
-  [ -L ~/.config/ghostty/config ] && rm ~/.config/ghostty/config
-  ln -sf "$DOTFILES_DIR/ghostty/config" ~/.config/ghostty/config
-fi
+# ============================================================
+# 安装 Homebrew
+# ============================================================
 
-# --- Tmux ---
-if should_install "tmux"; then
-  echo "📝 配置 Tmux..."
-  mkdir -p ~/.config/tmux
-  [ -L ~/.config/tmux/tmux.conf ] && rm ~/.config/tmux/tmux.conf
-  ln -sf "$DOTFILES_DIR/tmux/tmux.conf" ~/.config/tmux/tmux.conf
+install_homebrew() {
+	if command -v brew &>/dev/null; then
+		ok "Homebrew 已安装"
+	else
+		info "正在安装 Homebrew..."
+		/bin/bash -c "$(curl -fsSL https://gitee.com/ineo6/homebrew-install/raw/master/install.sh)"
 
-  # 安装 tpm (Tmux Plugin Manager)
-  TPM_DIR="$HOME/.config/tmux/plugins/tpm"
-  if [ ! -d "$TPM_DIR" ]; then
-    echo "📦 安装 tpm..."
-    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
-  fi
+		# 添加 Homebrew 到 PATH（Apple Silicon）
+		if [[ -f /opt/homebrew/bin/brew ]]; then
+			eval "$(/opt/homebrew/bin/brew shellenv)"
+		fi
 
-  # 安装 tmux 插件
-  echo "📦 安装 tmux 插件..."
-  "$TPM_DIR/bin/install_plugins"
-fi
+		ok "Homebrew 安装完成"
+	fi
+}
 
-# --- Zsh ---
-if should_install "zsh"; then
-  echo "📝 配置 Zsh..."
-  
-  # 安装 oh-my-zsh
-  if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "📦 安装 oh-my-zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  fi
-  
-  # 安装 zsh-autosuggestions 插件
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-  if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    echo "📦 安装 zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-  fi
-  
-  [ -L ~/.zshrc ] && rm ~/.zshrc
-  ln -sf "$DOTFILES_DIR/zsh/.zshrc" ~/.zshrc
-fi
+# ============================================================
+# 安装 Oh My Zsh
+# ============================================================
 
-echo ""
-echo "✅ dotfiles 安装完成！"
-echo ""
-echo "⚠️  接下来需要手动操作："
-echo "   1. 创建敏感信息文件: cp $DOTFILES_DIR/zsh/.zshrc.local.example ~/.zshrc.local"
-echo "   2. 编辑 ~/.zshrc.local 填入你的 token"
-echo "   3. 在 OpenCode 中执行 /connect 命令添加 API Key"
-echo "   4. 重启终端或执行 source ~/.zshrc"
+install_oh_my_zsh() {
+	if [[ -d "$HOME/.oh-my-zsh" ]]; then
+		ok "Oh My Zsh 已安装"
+	else
+		info "正在安装 Oh My Zsh..."
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+		ok "Oh My Zsh 安装完成"
+	fi
+}
+
+# ============================================================
+# 安装 Zsh 插件
+# ============================================================
+
+install_zsh_plugins() {
+	local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+	# zsh-autosuggestions
+	if [[ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+		ok "zsh-autosuggestions 已安装"
+	else
+		info "正在安装 zsh-autosuggestions..."
+		git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+		ok "zsh-autosuggestions 安装完成"
+	fi
+}
+
+# ============================================================
+# 克隆 Dotfiles 仓库
+# ============================================================
+
+clone_dotfiles() {
+	if [[ -d "$DOTFILES_DIR/.git" ]]; then
+		ok "Dotfiles 仓库已存在，正在更新..."
+		cd "$DOTFILES_DIR" && git pull
+	else
+		info "正在克隆 Dotfiles 仓库..."
+		git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+		ok "Dotfiles 仓库克隆完成"
+	fi
+}
+
+# ============================================================
+# 创建符号链接
+# ============================================================
+
+create_symlinks() {
+	info "正在创建符号链接..."
+
+	# 备份已有的 .zshrc
+	if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
+		warn "备份已有的 .zshrc -> .zshrc.backup"
+		mv "$HOME/.zshrc" "$HOME/.zshrc.backup"
+	fi
+
+	# 移除已有的符号链接
+	[[ -L "$HOME/.zshrc" ]] && rm "$HOME/.zshrc"
+
+	# 创建符号链接
+	ln -s "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+	ok ".zshrc -> $DOTFILES_DIR/zsh/.zshrc"
+
+	# 创建 .zshrc.local（如果不存在）
+	if [[ ! -f "$DOTFILES_DIR/zsh/.zshrc.local" ]]; then
+		info "创建 .zshrc.local（请填入你的私有配置）"
+		cp "$DOTFILES_DIR/zsh/.zshrc.local.example" "$DOTFILES_DIR/zsh/.zshrc.local"
+		warn "请编辑 $DOTFILES_DIR/zsh/.zshrc.local 填入你的 token 等敏感配置"
+	fi
+}
+
+# ============================================================
+# 主流程
+# ============================================================
+
+main() {
+	echo ""
+	echo "============================================================"
+	echo "  Dotfiles 初始化脚本"
+	echo "============================================================"
+	echo ""
+
+	# 检测是否通过 curl | bash 执行
+	if [[ -t 0 ]]; then
+		read -p "是否继续安装？(y/N) " -n 1 -r
+		echo
+		[[ $REPLY =~ ^[Yy]$ ]] || exit 0
+	fi
+
+	install_homebrew
+	install_oh_my_zsh
+	clone_dotfiles
+	install_zsh_plugins
+	create_symlinks
+
+	echo ""
+	echo "============================================================"
+	ok "安装完成！"
+	echo "============================================================"
+	echo ""
+	info "下一步："
+	echo "  1. 编辑私有配置: vim $DOTFILES_DIR/zsh/.zshrc.local"
+	echo "  2. 重新加载配置: source ~/.zshrc"
+	echo ""
+}
+
+main "$@"
