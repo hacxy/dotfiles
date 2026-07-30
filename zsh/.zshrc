@@ -11,7 +11,7 @@ source $ZSH/oh-my-zsh.sh
 # ============================================================
 # 加载模块化配置（按编号顺序）
 # ============================================================
-local config_dir="${0:A:h}"  # 当前 .zshrc 所在目录
+local config_dir="${${(%):-%x}:A:h}"  # 当前 .zshrc 所在目录（兼容交互式启动）
 
 for f in "$config_dir"/core/*.zsh(N) "$config_dir"/tools/*.zsh(N); do
   source "$f"
