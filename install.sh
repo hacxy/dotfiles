@@ -122,6 +122,20 @@ install_brew_tools() {
 }
 
 # ============================================================
+# 安装 Starship（zsh/.zshrc 中已配置 starship init）
+# ============================================================
+
+install_starship() {
+  if command -v starship &>/dev/null; then
+    ok "Starship 已安装"
+  else
+    info "正在安装 Starship..."
+    brew install starship
+    ok "Starship 安装完成"
+  fi
+}
+
+# ============================================================
 # 安装 nvm（环境变量已由 zsh/tools/30-nvm.zsh 加载，无需注入）
 # ============================================================
 
@@ -179,6 +193,22 @@ create_symlinks() {
     cp "$DOTFILES_DIR/zsh/.zshrc.local.example" "$DOTFILES_DIR/zsh/.zshrc.local"
     warn "请编辑 $DOTFILES_DIR/zsh/.zshrc.local 填入你的 token 等敏感配置"
   fi
+
+  # 创建 ~/.config/starship 目录（如果不存在）
+  mkdir -p "$HOME/.config/starship"
+
+  # 备份已有的 starship.toml
+  if [[ -f "$HOME/.config/starship/starship.toml" && ! -L "$HOME/.config/starship/starship.toml" ]]; then
+    warn "备份已有的 starship.toml -> starship.toml.backup"
+    mv "$HOME/.config/starship/starship.toml" "$HOME/.config/starship/starship.toml.backup"
+  fi
+
+  # 移除已有的符号链接
+  [[ -L "$HOME/.config/starship/starship.toml" ]] && rm "$HOME/.config/starship/starship.toml"
+
+  # 创建符号链接
+  ln -s "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship/starship.toml"
+  ok "starship.toml -> $DOTFILES_DIR/starship/starship.toml"
 }
 
 # ============================================================
@@ -202,6 +232,7 @@ main() {
   install_homebrew
   install_brew_tools
   install_nerd_font
+  install_starship
   install_nvm
   install_oh_my_zsh
   clone_dotfiles

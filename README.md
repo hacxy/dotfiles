@@ -12,7 +12,7 @@
 curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/install.sh | bash
 ```
 
-This installs Homebrew, Oh My Zsh, zsh-autosuggestions, clones the repo to `~/dotfiles`, and symlinks `.zshrc`.
+This installs Homebrew, Oh My Zsh, zsh-autosuggestions, clones the repo to `~/dotfiles`, and symlinks `.zshrc` and the Starship config.
 
 ## What's Inside
 
@@ -26,6 +26,9 @@ zsh/
 └── tools/
     ├── 20-proxy.zsh        # proxy on/off/status — manages HTTP proxy env vars
     └── 30-nvm.zsh          # Lazy-loads NVM on first node/npm/npx call
+
+starship/
+└── starship.toml           # Starship prompt config — symlinked to ~/.config/starship/
 ```
 
 ## Features

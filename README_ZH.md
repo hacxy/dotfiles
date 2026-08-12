@@ -12,7 +12,7 @@
 curl -fsSL https://raw.githubusercontent.com/hacxy/dotfiles/main/install.sh | bash
 ```
 
-一键完成：安装 Homebrew → Oh My Zsh → zsh-autosuggestions → 克隆仓库到 `~/dotfiles` → 创建符号链接。
+一键完成：安装 Homebrew → Oh My Zsh → zsh-autosuggestions → 克隆仓库到 `~/dotfiles` → 创建 `.zshrc` 和 Starship 配置符号链接。
 
 ## 目录结构
 
@@ -26,6 +26,9 @@ zsh/
 └── tools/
     ├── 20-proxy.zsh        # proxy on/off/status — 管理代理环境变量
     └── 30-nvm.zsh          # NVM 延迟加载，首次调用 node/npm/npx 时才加载
+
+starship/
+└── starship.toml           # Starship 提示符配置 — 符号链接到 ~/.config/starship/
 ```
 
 ## 特性
