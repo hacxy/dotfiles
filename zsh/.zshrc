@@ -8,6 +8,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
+eval "$(starship init zsh)"
+
 # ============================================================
 # 加载模块化配置（按编号顺序）
 # ============================================================
@@ -21,3 +23,5 @@ done
 # 本地私有配置（不提交到 git）
 # ============================================================
 [[ -f "$config_dir/.zshrc.local" ]] && source "$config_dir/.zshrc.local" || true
+
+
