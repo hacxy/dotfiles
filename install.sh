@@ -88,6 +88,41 @@ install_zsh_plugins() {
 }
 
 # ============================================================
+# 安装 JetBrainsMono Nerd Font
+# ============================================================
+
+install_nerd_font() {
+	if ls "$HOME/Library/Fonts"/JetBrainsMono*Nerd*Font* &>/dev/null; then
+		ok "JetBrainsMono Nerd Font 已安装"
+	else
+		info "正在安装 JetBrainsMono Nerd Font..."
+		# 老版本 Homebrew 需要先添加 fonts tap
+		if ! brew tap | grep -q '^homebrew/cask-fonts$'; then
+			brew tap homebrew/cask-fonts
+		fi
+		brew install --cask font-jetbrains-mono-nerd-font
+		ok "JetBrainsMono Nerd Font 安装完成"
+	fi
+}
+
+# ============================================================
+# 安装 nvm（环境变量已由 zsh/tools/30-nvm.zsh 加载，无需注入）
+# ============================================================
+
+install_nvm() {
+	if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+		ok "nvm 已安装"
+	else
+		info "正在安装 nvm..."
+		git clone https://github.com/nvm-sh/nvm.git "$HOME/.nvm"
+		# 切换到最新稳定 tag
+		cd "$HOME/.nvm"
+		git checkout "$(git describe --abbrev=0 --tags)"
+		ok "nvm 安装完成"
+	fi
+}
+
+# ============================================================
 # 克隆 Dotfiles 仓库
 # ============================================================
 
@@ -149,6 +184,8 @@ main() {
 	fi
 
 	install_homebrew
+	install_nerd_font
+	install_nvm
 	install_oh_my_zsh
 	clone_dotfiles
 	install_zsh_plugins
