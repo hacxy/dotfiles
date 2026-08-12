@@ -28,7 +28,7 @@ zsh/
     └── 30-nvm.zsh          # Lazy-loads NVM on first node/npm/npx call
 
 starship/
-└── starship.toml           # Starship prompt config — symlinked to ~/.config/starship/
+└── starship.toml           # Starship prompt config — symlinked to ~/.config/starship.toml
 ```
 
 ## Features

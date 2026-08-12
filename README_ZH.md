@@ -28,7 +28,7 @@ zsh/
     └── 30-nvm.zsh          # NVM 延迟加载，首次调用 node/npm/npx 时才加载
 
 starship/
-└── starship.toml           # Starship 提示符配置 — 符号链接到 ~/.config/starship/
+└── starship.toml           # Starship 提示符配置 — 符号链接到 ~/.config/starship.toml
 ```
 
 ## 特性

@@ -194,20 +194,21 @@ create_symlinks() {
     warn "请编辑 $DOTFILES_DIR/zsh/.zshrc.local 填入你的 token 等敏感配置"
   fi
 
-  # 创建 ~/.config/starship 目录（如果不存在）
-  mkdir -p "$HOME/.config/starship"
+  # starship 默认读取 ~/.config/starship.toml（注意：不是 ~/.config/starship/starship.toml）
+  # 清理旧版安装误建的 ~/.config/starship/starship.toml 软链
+  [[ -L "$HOME/.config/starship/starship.toml" ]] && rm "$HOME/.config/starship/starship.toml"
 
   # 备份已有的 starship.toml
-  if [[ -f "$HOME/.config/starship/starship.toml" && ! -L "$HOME/.config/starship/starship.toml" ]]; then
+  if [[ -f "$HOME/.config/starship.toml" && ! -L "$HOME/.config/starship.toml" ]]; then
     warn "备份已有的 starship.toml -> starship.toml.backup"
-    mv "$HOME/.config/starship/starship.toml" "$HOME/.config/starship/starship.toml.backup"
+    mv "$HOME/.config/starship.toml" "$HOME/.config/starship.toml.backup"
   fi
 
   # 移除已有的符号链接
-  [[ -L "$HOME/.config/starship/starship.toml" ]] && rm "$HOME/.config/starship/starship.toml"
+  [[ -L "$HOME/.config/starship.toml" ]] && rm "$HOME/.config/starship.toml"
 
   # 创建符号链接
-  ln -s "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship/starship.toml"
+  ln -s "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
   ok "starship.toml -> $DOTFILES_DIR/starship/starship.toml"
 }
 
